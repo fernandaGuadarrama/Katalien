@@ -89,7 +89,6 @@ class Personaje{
         this.image = this.image1
     }
     draw() {
-      console.log (this.image, this.x, this.y, this.width, this.height)
  /*       c.beginPath()
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
         c.fill()
@@ -105,14 +104,15 @@ class Personaje{
     }
    }
 
-  
-const gatos = new Personaje(250,150, 100, 100, cats)
-
-
-
-
 const x =  canvas.width / 2
-const y =  canvas.height / 2
+const y =  canvas.height / 2  
+const gatos = new Personaje(200,100, 100, 100, cats)
+console.log(gatos)
+
+
+
+
+
 
 //// projectile
 class Projectile {
@@ -203,12 +203,11 @@ function spawnEnemies(){
 console.log('go');
   }, 1000)
 }
-////////// loop
+////////// loop, corazón del juego
 
 function animate() {
   c.clearRect(0, 0, canvas.width, canvas.height)
-   
-    console.log("animate")
+    frames++
     gatos.draw()
     
  //   projectile.draw()
@@ -227,7 +226,7 @@ addEventListener('click', (event) => {
  const angle = Math.atan2(
     event.clientY - canvas.height / 2,
      event.clientX - canvas.width / 2)
-    console.log(angle)
+    console.log(event.clientX)
  const velocity = {
     x: Math.cos(angle),
     y: Math.sin(angle),
@@ -243,3 +242,10 @@ addEventListener('click', (event) => {
 */
 })
 
+/*ar getAngle = function(
+  event.clientX - canvas.height / 2, 
+  event.clientY - canvas.width / 2)
+  {
+  const angle = Math.atan2(y, x)/Math.PI*180;
+  return (360+Math.round(angle))%360; // corrects for angles between 180 ~ 360
+*/
