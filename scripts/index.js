@@ -86,12 +86,13 @@ console.log(gatos)
 
 //// projectile
 class Projectile {
-    constructor (x, y, radius, color, velocity) {
+    constructor (x, y, radius, color, velocity, radianes) {
         this.x = x
         this.y = y
         this.radius = radius
         this.color = color
         this.velocity = velocity
+        this.radianes = radianes
     }
     draw() {
         c.beginPath()
@@ -101,9 +102,12 @@ class Projectile {
     }
     update() {
       this.draw()
-        this.x = this.x + this.velocity.x
-        this.y = this.y + this.velocity.y
+//     this.x = Math.cos(this.radianes)
+//     this.y = Math.sin(this.radianes)
+        this.x = this.x + this.velocity.x 
+        this.y = this.y + this.velocity.y 
     }
+
 }
 
 //// enemy
@@ -116,16 +120,18 @@ class Enemy {
       this.velocity = velocity
   }
   draw() {
-    if (frames % 10) this.velocity += .5
+  //  if (frames % 10) this.velocity += .5
       c.beginPath()
       c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
       c.fillStyle = this.color
       c.fill()
   }
   update() {
-    this.draw()
-      this.x = this.x + this.velocity.x
-      this.y = this.y + this.velocity.y
+      this.draw()
+   //   if (frames % 100 == 0) {
+        this.x = this.x + this.velocity.x
+        this.y = this.y + this.velocity.y
+  // }
   }
 }
 
@@ -151,49 +157,50 @@ const enemies = []
 
  function spawnEnemies(){
   
-  setInterval(() => {
-    const x = Math.random() * canvas.width
-    const y = Math.random() * canvas.height
+ // setInterval(() => {
+    const x = Math.floor(Math.random() *  (800 + 100))
+    const y = Math.floor(Math.random() *  (800 + 100))
     const radius = Math.random () *(20 - 5) + 5
     const color = 'white'
 
-  const radianes = Math.atan2(
-     canvas.height /2 -y,
-     canvas.width /2 -x)
+    const radianes = Math.atan2(canvas.height /2 -y, canvas.width /2 -x)
     const velocity = {
-    x: Math.cos(radianes),
-    y: Math.sin(radianes)
- }
+       x: Math.floor(Math.cos(radianes)),
+       y: Math.floor(Math.sin(radianes))
+    }
+    console.log(velocity)
  //   const velocity = {x :1, y: 1}
-    enemies.push (new Enemy(x, y, radius, color, velocity))
-  }, 1500)
+  enemies.push (new Enemy(x, y, radius, color, velocity))
+//  }, 1500)
  
 } 
 ////////// loop, corazón del juego
 
 function animate() {
-  requestAnimationFrame(animate)
-  c.clearRect(0, 0, canvas.width, canvas.height)
+    c.clearRect(0, 0, canvas.width, canvas.height)
     frames++
     gatos.draw()
-    //  projectile.draw()
-   // projectile.update()
-   projectiles.forEach((projectile) => {
-    projectile.update ()
-  spawnEnemies()
- })
- enemies.forEach((enemy) => {
-  enemy.update ()
-  projectiles.forEach(projectile => {
-    const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y)
-    console.log (dist)
-    if (dist - enemy.radius - projectile.radius < 2) {
-      console.log ('killed')
+    if (frames % 300 == 0){
+        spawnEnemies()
     }
-  });
- // spawnEnemies()
-})
-    
+    //  projectile.draw()
+    // projectile.update()
+    projectiles.forEach((projectile) => {
+       projectile.update ()
+       console.log(projectile)
+    })
+    enemies.forEach((enemy) => {
+       enemy.update ()
+        projectiles.forEach(projectile => {
+          const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y)
+          console.log (dist)
+            if (dist - enemy.radius - projectile.radius < 2) {
+             console.log ('killed')
+            }
+        });
+      // spawnEnemies()
+    })
+    requestAnimationFrame(animate)
 }
 
 //// activar los controles 
@@ -210,13 +217,13 @@ addEventListener('click', (event) => {
  const radianes = Math.atan2(y_mouse, x_mouse)
     const angle = (radianes*180)/Math.PI;
     console.log("x", (event.clientX - (1245.600/2)), "y", (event.clientY -(688/2)), "\n,angle", angle)
- const velocity = {
-    x: Math.cos(radianes),
-    y: Math.sin(radianes)
- }
+    const velocity = {
+       x: Math.cos(radianes),
+       y: Math.sin(radianes)
+    }
  projectiles.push(
     new Projectile(canvas.width / 2, canvas.height / 2, 
-    5, 'purple', velocity)) 
+    5, 'purple', velocity, radianes)) 
 
 
 })
