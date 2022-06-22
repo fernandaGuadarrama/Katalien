@@ -12,28 +12,6 @@ console.log(canvas)
 const fondo = new Image()
 fondo.scr = "../img/space.png"
 
-/////*BACKGROUND *////////
-//const backgroundImage = {
-//   img: fondo,
- //   x: 0,
-//}
-/*    speed: -1,
-    move() {
-      this.x += this.speed;
-      this.x %= canvas.width;
-    },
-  
-    draw: function() {
-      ctx.drawImage(this.img, this.x, 0, 900, 600);
-      if (this.speed < 0) {
-        ctx.drawImage(this.img, this.x + canvas.width, 0, 900, 600);
-      } else {
-        ctx.drawImage(this.img, this.x - this.img.width, 0, 900, 600);
-      }
-    },};*/
-  
-
-
 
 // let empezarJuego()
 
@@ -54,13 +32,6 @@ console.log('empezarJuego()')
 //empezarJuego()
 
 function actualizarEscenario(){
-//esto es lo que ejecuta la acción de escenario
-//    ctx.clearRect(0,0,900,600)
-      
-     // crearEnemigos()
-  //    backgroundImage.draw()
- //     cat.dibujarse()
-  //    backgroundImage.move()
 
 }
 
@@ -70,9 +41,7 @@ const cats = {
 }
 
 let frames = 0;
-///// personaje base
-//const imagenCat = new Image()
-//imagenCat.src = "../img/cat.png"
+
 
 class Personaje{
     constructor(x,y,w,h,imgs){
@@ -101,6 +70,7 @@ class Personaje{
 
      c.drawImage(this.image, this.x, this.y, this.width, this.height)
        //colision
+       
     }
    }
 
@@ -131,33 +101,13 @@ class Projectile {
     }
     update() {
       this.draw()
-      //si lo multiplico por3 2 será más rápido, puedo usar una variable fija
         this.x = this.x + this.velocity.x
         this.y = this.y + this.velocity.y
     }
 }
 
-/* class Personaje{
-  constructor(x, y, radius, img, color){
-      this.x = x
-      this.y = y
-      this.radius = radius
-      this.color = color
-      this.img = img
-  }
-  draw() {
-      c.beginPath()
-      c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
-      c.fill()
-      c.fillStyle = this.color
-  }
-}
-*/
-//const x =  canvas.width / 2
-//const y =  canvas.height / 2
-
-//// projectile
-/*class Enemy {
+//// enemy
+class Enemy {
   constructor (x, y, radius, color, velocity) {
       this.x = x
       this.y = y
@@ -166,22 +116,18 @@ class Projectile {
       this.velocity = velocity
   }
   draw() {
+    if (frames % 10) this.velocity += .5
       c.beginPath()
       c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
       c.fillStyle = this.color
       c.fill()
   }
   update() {
+    this.draw()
       this.x = this.x + this.velocity.x
       this.y = this.y + this.velocity.y
   }
 }
-*/
-//// atributos de Cat
-
-
-
-//const cat = new Personaje (x, y, 30, "red")
 
 
 ////// creando el projectile 
@@ -192,49 +138,73 @@ const projectile = new Projectile(
   canvas.width / 2, 
   canvas.height / 2,
  5, 
- 'red', 
+ 'purple', 
  {
   x: 1, 
   y: 1
 }
 )
 
-/*const projectile2 = new Projectile(
-  canvas.width / 2, canvas.height / 2,
- event.clientX, event.clientY, 
- 5, 'green', {x: -1, y: -1}) */
 
 const projectiles = []
+const enemies = []
 
-/* function spawnEnemies(){
+ function spawnEnemies(){
+  
   setInterval(() => {
-console.log('go');
-  }, 1000)
-} */
+    const x = Math.random() * canvas.width
+    const y = Math.random() * canvas.height
+    const radius = Math.random () *(20 - 5) + 5
+    const color = 'white'
+
+  const radianes = Math.atan2(
+     canvas.height /2 -y,
+     canvas.width /2 -x)
+    const velocity = {
+    x: Math.cos(radianes),
+    y: Math.sin(radianes)
+ }
+ //   const velocity = {x :1, y: 1}
+    enemies.push (new Enemy(x, y, radius, color, velocity))
+  }, 1500)
+ 
+} 
 ////////// loop, corazón del juego
 
 function animate() {
+  requestAnimationFrame(animate)
   c.clearRect(0, 0, canvas.width, canvas.height)
     frames++
     gatos.draw()
-    
-  //  projectile.draw()
+    //  projectile.draw()
    // projectile.update()
-  requestAnimationFrame(animate)
-  projectiles.forEach((projectile) => {
+   projectiles.forEach((projectile) => {
     projectile.update ()
+  spawnEnemies()
  })
+ enemies.forEach((enemy) => {
+  enemy.update ()
+  projectiles.forEach(projectile => {
+    const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y)
+    console.log (dist)
+    if (dist - enemy.radius - projectile.radius < 2) {
+      console.log ('killed')
+    }
+  });
+ // spawnEnemies()
+})
     
 }
 
 //// activar los controles 
 //1245.600 x 688
+//1200 x 600
 
 addEventListener('click', (event) => {
   //var x_mouse = event.clientX
-  var y_mouse =  (event.clientY -(688/2))
+  let y_mouse =  (event.clientY -(688/2))
   //(event.clientY - canvas.height) / 2;
-  var x_mouse = (event.clientX - (1245.600/2))
+  let x_mouse = (event.clientX - (1245.600/2))
   //(event.clientX - canvas.width) / 2;
   console.log ("go")
  const radianes = Math.atan2(y_mouse, x_mouse)
@@ -246,15 +216,7 @@ addEventListener('click', (event) => {
  }
  projectiles.push(
     new Projectile(canvas.width / 2, canvas.height / 2, 
-    5, 'red', velocity)) 
-
-/*const projectile = new Projectile(
-    canvas.width / 2, canvas.height / 2,
-     event.clientX, event.clientY, 
-     5, 'red', {x: 1, y: 1})
-projectile.draw()*/
-
-
+    5, 'purple', velocity)) 
 
 
 })

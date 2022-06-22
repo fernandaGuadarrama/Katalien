@@ -27,14 +27,14 @@ body{
 
 
 body {
-    background-color: pink;
+    background-color: var(--colorRosita);
 }
 
 #start{
     padding: 15px;
     font-family: 'Bebas Neue', cursive;
     color:rgb(246, 246, 246);
-    background-color: var(--colorRosita);
+    background-color: rgb(71, 140, 172);
     border-radius: 15px;
     border-style: 1px solid black;
     cursor: pointer;
@@ -49,7 +49,7 @@ body {
 
 canvas {
     border: 1px solid  purple;
-    background-color: green;
+    background-color: black;
     justify-content: center;
     align-items: center;
 }
