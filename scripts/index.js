@@ -13,10 +13,10 @@ const fondo = new Image()
 fondo.scr = "../img/space.png"
 
 /////*BACKGROUND *////////
-const backgroundImage = {
-   img: fondo,
-    x: 0,
-}
+//const backgroundImage = {
+//   img: fondo,
+ //   x: 0,
+//}
 /*    speed: -1,
     move() {
       this.x += this.speed;
@@ -106,7 +106,7 @@ class Personaje{
 
 const x =  canvas.width / 2
 const y =  canvas.height / 2  
-const gatos = new Personaje(200,100, 100, 100, cats)
+const gatos = new Personaje(350, 250, 100, 100, cats)
 console.log(gatos)
 
 
@@ -131,6 +131,7 @@ class Projectile {
     }
     update() {
       this.draw()
+      //si lo multiplico por3 2 será más rápido, puedo usar una variable fija
         this.x = this.x + this.velocity.x
         this.y = this.y + this.velocity.y
     }
@@ -156,7 +157,7 @@ class Projectile {
 //const y =  canvas.height / 2
 
 //// projectile
-class Enemy {
+/*class Enemy {
   constructor (x, y, radius, color, velocity) {
       this.x = x
       this.y = y
@@ -175,6 +176,7 @@ class Enemy {
       this.y = this.y + this.velocity.y
   }
 }
+*/
 //// atributos de Cat
 
 
@@ -187,22 +189,28 @@ class Enemy {
 
 
 const projectile = new Projectile(
+  canvas.width / 2, 
+  canvas.height / 2,
+ 5, 
+ 'red', 
+ {
+  x: 1, 
+  y: 1
+}
+)
+
+/*const projectile2 = new Projectile(
   canvas.width / 2, canvas.height / 2,
-// event.clientX, event.clientY, 
- 5, 'red', {x: 1, y: 1})
+ event.clientX, event.clientY, 
+ 5, 'green', {x: -1, y: -1}) */
 
-const projectile2 = new Projectile(
-  canvas.width / 2, canvas.height / 2,
-// event.clientX, event.clientY, 
- 5, 'green', {x: -1, y: -1})
+const projectiles = []
 
-const projectiles = [projectile, projectile2]
-
-function spawnEnemies(){
+/* function spawnEnemies(){
   setInterval(() => {
 console.log('go');
   }, 1000)
-}
+} */
 ////////// loop, corazón del juego
 
 function animate() {
@@ -210,8 +218,8 @@ function animate() {
     frames++
     gatos.draw()
     
- //   projectile.draw()
-  //  projectile.update()
+  //  projectile.draw()
+   // projectile.update()
   requestAnimationFrame(animate)
   projectiles.forEach((projectile) => {
     projectile.update ()
@@ -220,32 +228,34 @@ function animate() {
 }
 
 //// activar los controles 
+//1245.600 x 688
 
 addEventListener('click', (event) => {
-    console.log ("go")
- const angle = Math.atan2(
-    event.clientY - canvas.height / 2,
-     event.clientX - canvas.width / 2)
-    console.log(event.clientX)
+  //var x_mouse = event.clientX
+  var y_mouse =  (event.clientY -(688/2))
+  //(event.clientY - canvas.height) / 2;
+  var x_mouse = (event.clientX - (1245.600/2))
+  //(event.clientX - canvas.width) / 2;
+  console.log ("go")
+ const radianes = Math.atan2(y_mouse, x_mouse)
+    const angle = (radianes*180)/Math.PI;
+    console.log("x", (event.clientX - (1245.600/2)), "y", (event.clientY -(688/2)), "\n,angle", angle)
  const velocity = {
-    x: Math.cos(angle),
-    y: Math.sin(angle),
+    x: Math.cos(radianes),
+    y: Math.sin(radianes)
  }
  projectiles.push(
     new Projectile(canvas.width / 2, canvas.height / 2, 
-    5, 'red', velocity))
+    5, 'red', velocity)) 
 
-    /*   const projectile = new Projectile(
+/*const projectile = new Projectile(
     canvas.width / 2, canvas.height / 2,
-  // event.clientX, event.clientY, 
-   5, 'red', {x: 1, y: 1})
-*/
+     event.clientX, event.clientY, 
+     5, 'red', {x: 1, y: 1})
+projectile.draw()*/
+
+
+
+
 })
 
-/*ar getAngle = function(
-  event.clientX - canvas.height / 2, 
-  event.clientY - canvas.width / 2)
-  {
-  const angle = Math.atan2(y, x)/Math.PI*180;
-  return (360+Math.round(angle))%360; // corrects for angles between 180 ~ 360
-*/

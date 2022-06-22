@@ -9,11 +9,11 @@
 }
 
 body{
-/*    background-image: url("../img/background.png"); */
+/*    background-image: url("../img/background.png"); 
     background-repeat: no-repeat;
     background-size: cover;
-    width: 900;
-    height: 600;
+    width: 900; */ 
+/*    height: 600; */
 }
 
 .container{
@@ -50,7 +50,8 @@ body {
 canvas {
     border: 1px solid  purple;
     background-color: green;
-
+    justify-content: center;
+    align-items: center;
 }
 
 .noShow{
