@@ -3,7 +3,7 @@
 
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d')
-console.log(canvas)
+
 
 //canvas.width = innerWidth
 //canvas.height = innerHeight
@@ -17,7 +17,6 @@ fondo.scr = "../img/space.png"
 
 function empezarJuego() {
 //obtenemos los elementos
-console.log('empezarJuego()')
     const btnstart = document.getElementById("start")
 
     //modificamos los elementos
@@ -44,7 +43,7 @@ let frames = 0;
 
 //let colores = ""
 class Personaje{
-    constructor(x,y,w,h,imgs, life){
+    constructor(x,y,w,h,imgs){
         this.x = x
         this.y = y
         this.width = w
@@ -57,6 +56,7 @@ class Personaje{
         this.image2.src = imgs.second
         this.image = this.image1
         this.life = 100
+        this.kills = 0
     }
     recibirDaño(daño){
       this.life -= daño
@@ -80,8 +80,8 @@ class Personaje{
 
 const x =  canvas.width / 2
 const y =  canvas.height / 2  
-const gatos = new Personaje(350, 250, 100, 100, cats)
-console.log(gatos)
+const gatos = new Personaje(350, 200, 100, 100, cats)
+
 
 
 
@@ -181,14 +181,14 @@ const enemies = []
        x: Math.floor(Math.cos(radianes)),
        y: Math.floor(Math.sin(radianes))
     }
-    console.log(velocity)
+  //  console.log(velocity)
  //   const velocity = {x :1, y: 1}
   enemies.push (new Enemy(x, y, radius, color, velocity))
 //  }, 1500)
  
 } 
 ////////// loop, corazón del juego
-
+let animationId
 function animate() {
     c.clearRect(0, 0, canvas.width, canvas.height)
     frames++
@@ -198,28 +198,38 @@ function animate() {
     }
     //  projectile.draw()
     // projectile.update()
-    projectiles.forEach((projectile) => {
+    projectiles.forEach((projectile, projectileIndex) => {
        projectile.update ()
-       console.log(projectile)
+       if(projectile.x < -500 || projectile.x > 500){
+        projectiles.splice(projectileIndex, 1)
+       }
     })
-    enemies.forEach((enemy) => {
+    enemies.forEach((enemy, index) => {
        enemy.update ()
-        projectiles.forEach(projectile => {
+//      GAME OVER
+        const dist = Math.hypot(gatos.x - enemy.x, gatos.y - enemy.y)
+        if (dist - enemy.radius - projectile.radius < 2){
+          cancelAnimationFrame(animationId)
+        }
+//        console.log(projectiles)
+//      PROJECTILE COLLISION
+        projectiles.forEach((projectile, projectileIndex) => {
           const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y)
-          console.log (dist)
-            if (dist - enemy.radius - projectile.radius < 2) {
-             console.log ('killed')
-            }
-    if (projectile.x === enemy.x && projectile.y === enemy.y){
-    
-    }
-    if (projectile.x === gatos.x && projectile.y === gatos.y){
-       gatos.recibirDaño(20)
-    console.log(gatos.life)
-    }
+          if (dist - enemy.radius - projectile.radius < 2) {
+            enemies.splice(index, 1)
+            projectiles.splice(projectileIndex, 1)
+//          console.log ('killed')
+          }
+          if (projectile.x === enemy.x && projectile.y === enemy.y){
+          gatos.kills++
+          }
+          if (projectile.x === gatos.x && projectile.y === gatos.y){
+            gatos.recibirDaño(20)
+            console.log(gatos.life)
+          }
         });
     })
-    requestAnimationFrame(animate)
+    animationId = requestAnimationFrame(animate)
 }
 
 //// activar los controles 
@@ -242,7 +252,7 @@ addEventListener('click', (event) => {
     }
  projectiles.push(
     new Projectile(canvas.width / 2, canvas.height / 2, 
-    15, colores , velocity, radianes)) 
+    15, '#C724B1', velocity, radianes)) 
 
 
 })

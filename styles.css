@@ -27,16 +27,18 @@ body{
 
 
 body {
-    background-color: pink;
+    background-color: #AD1F9A;
 }
 
 #start{
     padding: 15px;
-    font-family: 'Bebas Neue', cursive;
+    margin-top: 250px;
+    margin-right: 50px;
+    font-family: 'Pathway Gothic One', sans-serif;
     color:rgb(246, 246, 246);
-    background-color: rgb(71, 140, 172);
+    background-color: #C710AF;
     border-radius: 15px;
-    border-style: 1px solid black;
+    border-style: 1px solid #AD1F9A;
     cursor: pointer;
     justify-content: center;
     align-items: center;
@@ -48,9 +50,9 @@ body {
 }
 
 canvas {
-    border: 1px solid  purple;
-/*    background-image: "./img/canvas.gif"; */
-    background-color: black;
+    border: 1px solid  black;
+    background-image: url("./img/katalien.gif");
+   /* background-color: black; */
     justify-content: center;
     align-items: center;
 }
