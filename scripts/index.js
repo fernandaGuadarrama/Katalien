@@ -42,9 +42,9 @@ const cats = {
 
 let frames = 0;
 
-
+//let colores = ""
 class Personaje{
-    constructor(x,y,w,h,imgs){
+    constructor(x,y,w,h,imgs, life){
         this.x = x
         this.y = y
         this.width = w
@@ -56,6 +56,10 @@ class Personaje{
         this.image1.src = imgs.first
         this.image2.src = imgs.second
         this.image = this.image1
+        this.life = 100
+    }
+    recibirDaño(daño){
+      this.life -= daño
     }
     draw() {
  /*       c.beginPath()
@@ -93,6 +97,15 @@ class Projectile {
         this.color = color
         this.velocity = velocity
         this.radianes = radianes
+
+/*        function get_random_color() {
+          function c() {
+            var hex = Math.floor(Math.random()*256).toString(16);
+            return ("0"+String(hex)).substr(-2); // pad with zero
+          }
+          return "#"+c()+c()+c();
+        }
+        */
     }
     draw() {
         c.beginPath()
@@ -144,7 +157,7 @@ const projectile = new Projectile(
   canvas.width / 2, 
   canvas.height / 2,
  5, 
- 'purple', 
+ '#ff2e82', 
  {
   x: 1, 
   y: 1
@@ -197,8 +210,14 @@ function animate() {
             if (dist - enemy.radius - projectile.radius < 2) {
              console.log ('killed')
             }
+    if (projectile.x === enemy.x && projectile.y === enemy.y){
+    
+    }
+    if (projectile.x === gatos.x && projectile.y === gatos.y){
+       gatos.recibirDaño(20)
+    console.log(gatos.life)
+    }
         });
-      // spawnEnemies()
     })
     requestAnimationFrame(animate)
 }
@@ -223,7 +242,7 @@ addEventListener('click', (event) => {
     }
  projectiles.push(
     new Projectile(canvas.width / 2, canvas.height / 2, 
-    5, 'purple', velocity, radianes)) 
+    15, colores , velocity, radianes)) 
 
 
 })

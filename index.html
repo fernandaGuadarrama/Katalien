@@ -4,15 +4,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Katalien</title> 
-        <link rel="icon" type="image/x-icon" href="./img/logo.png">
-    
+    <title>Katalien</title>
+    <style>
+        div {
+          background-image:url("img/background.png");
+          background-repeat: no-repeat;
+          background-size: 100% 100%;
+        }
+      </style> 
+        <link rel="icon" type="image/x-icon" href="./img/logocat.png">
+        
     <link rel="stylesheet" href="./styles.css"/>
 </head>
 <body>
    <div class="container">
         <button id="start" onclick= "empezarJuego()">MIAW start</button>
         <canvas width= "800" height= "600" id="escenario" class="noShow"></canvas>
+        <div class="social-bar">
+            <link rel="stylesheet" href="./fonts.css">
+            <a href="https://www.facebook.com/fernandaguadarrama10?ref=tn_tnmn" class="icon icon-facebook" target="_blank" href="./img/facebook-logo.png"></a>
+            <a href="https://www.instagram.com/fernandaguadarrama/" class="icon icon-instagram" target="_blank" href="./img/instagram-logo.png"></a>
+            <a href="https://twitter.com/Pau_Rawr" class="icon icon-twitter" target="_blank" href="./img/twitter-logo.png"></a>
+            <a href="https://www.linkedin.com/in/fernanda-guadarrama-950510160/" class="icon icon-linkedin" target="_blank" href="./img/LK-logo.png"></a>
+            <a href="https://github.com/fernandaGuadarrama" class="icon icon-github" target="_blank"></a>
+          </div>
     </div>
     <script src="./scripts/index.js"></script>
 </body>

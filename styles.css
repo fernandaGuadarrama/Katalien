@@ -27,7 +27,7 @@ body{
 
 
 body {
-    background-color: var(--colorRosita);
+    background-color: pink;
 }
 
 #start{
@@ -49,6 +49,7 @@ body {
 
 canvas {
     border: 1px solid  purple;
+/*    background-image: "./img/canvas.gif"; */
     background-color: black;
     justify-content: center;
     align-items: center;
@@ -57,3 +58,45 @@ canvas {
 .noShow{
     display: none;
 }
+
+
+    .social-bar {
+        position: fixed;
+        right: 0;
+        top: 35%;
+        font-size: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        z-index: 100;
+      }
+  
+      .icon {
+        color: whitesmoke;
+        text-decoration: none;
+        padding: .7rem;
+        display: flex;
+        transition: all .5s;
+      }
+  
+      .icon-facebook {
+        background: rgba(41, 104, 221, 0.6);
+        border-radius: 1rem 0 0 0;
+      }
+  
+      .icon-instagram {
+        background: rgba(199, 52, 179, 0.6);
+      }
+  
+      .icon-twitter {
+        background: rgba(41, 217, 223, 0.6);
+      }
+  
+      .icon-linkedin {
+        background: rgba(80, 55, 219, 0.6);
+      }
+
+      .icon-github {
+        background: rgba(4, 1, 18, 0.6);
+        border-radius: 0 0 0 1rem;
+      }
