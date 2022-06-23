@@ -10,7 +10,7 @@ const c = canvas.getContext('2d')
 
 
 const fondo = new Image()
-fondo.scr = "../img/space.png"
+fondo.scr = "img/space.png"
 
 
 // let empezarJuego()
@@ -35,8 +35,8 @@ function actualizarEscenario(){
 }
 
 const cats = { 
- first: "../img/cat.png",
- second: "../img/cat2.png"
+ first: "img/cat.png",
+ second: "img/cat2.png"
 }
 
 let frames = 0;
@@ -242,10 +242,9 @@ addEventListener('click', (event) => {
   //(event.clientY - canvas.height) / 2;
   let x_mouse = (event.clientX - (1245.600/2))
   //(event.clientX - canvas.width) / 2;
-  console.log ("go")
  const radianes = Math.atan2(y_mouse, x_mouse)
     const angle = (radianes*180)/Math.PI;
-    console.log("x", (event.clientX - (1245.600/2)), "y", (event.clientY -(688/2)), "\n,angle", angle)
+//  console.log("x", (event.clientX - (1245.600/2)), "y", (event.clientY -(688/2)), "\n,angle", angle)
     const velocity = {
        x: Math.cos(radianes),
        y: Math.sin(radianes)

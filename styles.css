@@ -50,7 +50,7 @@ body {
 }
 
 canvas {
-    border: 1px solid  black;
+    border: 1px solid black;
     background-image: url("./img/katalien.gif");
    /* background-color: black; */
     justify-content: center;
