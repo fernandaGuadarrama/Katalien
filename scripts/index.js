@@ -210,7 +210,7 @@ function animate() {
       alert("Dark alien forces got you kitty!")
       gatos.drawDead()
     }
-    if (frames % 10 == 0){
+    if (frames % 50 == 0){
         spawnEnemies()
     }
     //  projectile.draw()

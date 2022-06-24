@@ -44,7 +44,7 @@ body {
 canvas {
   border: 1px solid black;
   margin: 1rem 0;
-  background-size: 1200px 600px;
+  background-size: 800px 500px;
   background-image: url("./img/katalien.gif");
    /* background-color: black; */
 }
