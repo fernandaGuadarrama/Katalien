@@ -8,14 +8,6 @@
     --colorRosita: #f1c0e8
 }
 
-body{
-/*    background-image: url("../img/background.png"); 
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 900; */ 
-/*    height: 600; */
-}
-
 .container{
     width: 100vw;
     height: 100vh;
@@ -57,7 +49,7 @@ canvas {
    /* background-color: black; */
 }
 
-contenedor{
+.container{
   display: flex;
   align-items: center;
   flex-flow: column nowrap;

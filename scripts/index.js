@@ -39,6 +39,8 @@ const cats = {
  second: "img/cat2.png"
 }
 
+
+
 let frames = 0;
 
 //let colores = ""
@@ -55,7 +57,7 @@ class Personaje{
         this.image1.src = imgs.first
         this.image2.src = imgs.second
         this.image = this.image1
-        this.life = 100
+        this.life = 10
         this.kills = 0
     }
     recibirDaño(daño){
@@ -68,13 +70,18 @@ class Personaje{
         c.fillStyle = this.color
         */
  //      ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
-      if (frames % 100 === 0){
-        this.image = this.image === this.image1 ? this.image2 : this.image1
-      }
+        if (frames % 100 === 0){
+          this.image = this.image === this.image1 ? this.image2 : this.image1
+         }
 
-     c.drawImage(this.image, this.x, this.y, this.width, this.height)
+        c.drawImage(this.image, this.x, this.y, this.width, this.height)
        //colision
-       
+    }
+    drawDead(){
+       // if (frames % 100 === 0){
+      //   this.image = this.image === this.image1 ? this.image2 : this.image1
+      //  }
+      c.drawImage("img/catdead.png", this.x, this.y, this.width, this.height)     
     }
    }
 
@@ -132,20 +139,23 @@ class Enemy {
       this.color = color
       this.velocity = velocity
   }
-  draw() {
+  draw(){
   //  if (frames % 10) this.velocity += .5
       c.beginPath()
       c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
       c.fillStyle = this.color
       c.fill()
   }
-  update() {
+  update(){
       this.draw()
-   //   if (frames % 100 == 0) {
         this.x = this.x + this.velocity.x
         this.y = this.y + this.velocity.y
-  // }
   }
+  hitCat(){
+      gatos.recibirDaño(50)
+      console.log(gatos.life)
+  }
+
 }
 
 
@@ -192,8 +202,15 @@ let animationId
 function animate() {
     c.clearRect(0, 0, canvas.width, canvas.height)
     frames++
-    gatos.draw()
-    if (frames % 300 == 0){
+    if (gatos.life > 0){ //vivos
+      gatos.draw()
+      console.log(gatos.life)
+    }
+    else {
+      alert("Dark alien forces got you kitty!")
+      gatos.drawDead()
+    }
+    if (frames % 10 == 0){
         spawnEnemies()
     }
     //  projectile.draw()
@@ -206,71 +223,62 @@ function animate() {
     })
     enemies.forEach((enemy, index) => {
        enemy.update ()
-
 //        console.log(projectiles)
 //      PROJECTILE COLLISION
-        projectiles.forEach((projectile, projectileIndex) => {
-          const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y)
-          if (dist - enemy.radius - projectile.radius < 2) {
-            enemies.splice(index, 1)
-            projectiles.splice(projectileIndex, 1)
-//          console.log ('killed')
-          }
-          if (projectile.x === enemy.x && projectile.y === enemy.y){
-          gatos.kills++
-          }
-          if (projectile.x === gatos.x && projectile.y === gatos.y){
-            gatos.recibirDaño(50)
-            console.log(gatos.life)
-          }
+      projectiles.forEach((projectile, projectileIndex) => {
+        const dist_projectiles_enemy = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y)
+         if (dist_projectiles_enemy - enemy.radius - projectile.radius < 2) {
+          enemies.splice(index, 1)
+          projectiles.splice(projectileIndex, 1)
+      }
+      
+       if (enemy.x <= 436 && enemy.x >= 364 && enemy.y <= 299 && enemy.y >= 202){
+          enemy.hitCat()
+          gatos.recibirDaño(50)
+          console.log(gatos.life)
+       }
         });
-//      GAME OVER
-        const dist = Math.hypot(gatos.x - enemy.x && gatos.y - enemy.y)
-        if (dist - gatos.radius - projectile.radius < 2){
-        cancelAnimationFrame(animationId)
-}
     })
+
     animationId = requestAnimationFrame(animate)
 }
-  /*  let mostrarDatos
-    mostrarDatos(gatos.life, gatos.kills)
-    idFrame = requestAnimationFrame(animate)
+  //esto es el tablero de la vida
+// let mostrarDatos
+// function mostrarDatos(life, kills){
+//     ctx.font = "24px Arial"
+//     ctx.fillText(life, 450, 10)
+//     ctx.font = "18px Arial"
+//     ctx.fillText(`life: ${life} kills: ${kills}`, 800, 40)
+// }
+// mostrarDatos(gatos.life, gatos.kills)
 
-    if (!gatos.life()< 0){
-    alert("Dark alien forces got you kitty!")
-      cancelAnimationFrame(animate)
-    }
-      //esto es el tablero de la vida
-      function mostrarDatos(life, kills){
-        ctx.font = "24px Arial"
-        ctx.fillText(life, 450, 10)
-        ctx.font = "18px Arial"
-        ctx.fillText(`x: ${x}, y: ${y}, kills: ${kills}`, 800, 40)
-    }
-    */
+// if (gatos.life < 0){
+//   alert("Dark alien forces got you kitty!")
+//   gatos.drawDead()
+// }
+
+
+//idFrame = requestAnimationFrame(animate)
+
 
 
 //// activar los controles 
-//1245.600 x 688
-//1200 x 600
-
 addEventListener('click', (event) => {
-  //var x_mouse = event.clientX
-  let y_mouse =  (event.offsetY - (canvas.height/2))
-  //(event.clientY - canvas.height) / 2;
-  let x_mouse = (event.offsetX - (canvas.width/2))
-  //(event.clientX - canvas.width) / 2;
- const radianes = Math.atan2(y_mouse, x_mouse)
-    const angle = (radianes*180)/Math.PI;
-console.log("x", (event.offsetX), "y", (event.offsetY), "\n,angle", angle)
-    const velocity = {
-       x: Math.cos(radianes),
-       y: Math.sin(radianes)
-    }
- projectiles.push(
-    new Projectile(canvas.width / 2, canvas.height / 2, 
-    15, '#C724B1', velocity, radianes)) 
-
-
+      //var x_mouse = event.clientX
+    let y_mouse =  (event.offsetY - (canvas.height/2))
+      //(event.clientY - canvas.height) / 2;
+    let x_mouse = (event.offsetX - (canvas.width/2))
+      //(event.clientX - canvas.width) / 2;
+    const radianes = Math.atan2(y_mouse, x_mouse)
+        const angle = (radianes*180)/Math.PI;
+    console.log("x", (event.offsetX), "y", (event.offsetY), "\n,angle", angle)
+        const velocity = {
+          x: Math.cos(radianes),
+          y: Math.sin(radianes)
+        }
+    projectiles.push(
+        new Projectile(canvas.width / 2, canvas.height / 2, 
+        15, '#C724B1', velocity, radianes)) 
 })
+
 
