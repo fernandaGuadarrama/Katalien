@@ -206,11 +206,7 @@ function animate() {
     })
     enemies.forEach((enemy, index) => {
        enemy.update ()
-//      GAME OVER
-        const dist = Math.hypot(gatos.x - enemy.x, gatos.y - enemy.y)
-        if (dist - enemy.radius - projectile.radius < 2){
-          cancelAnimationFrame(animationId)
-        }
+
 //        console.log(projectiles)
 //      PROJECTILE COLLISION
         projectiles.forEach((projectile, projectileIndex) => {
@@ -224,13 +220,35 @@ function animate() {
           gatos.kills++
           }
           if (projectile.x === gatos.x && projectile.y === gatos.y){
-            gatos.recibirDaño(20)
+            gatos.recibirDaño(50)
             console.log(gatos.life)
           }
         });
+//      GAME OVER
+        const dist = Math.hypot(gatos.x - enemy.x && gatos.y - enemy.y)
+        if (dist - gatos.radius - projectile.radius < 2){
+        cancelAnimationFrame(animationId)
+}
     })
     animationId = requestAnimationFrame(animate)
 }
+  /*  let mostrarDatos
+    mostrarDatos(gatos.life, gatos.kills)
+    idFrame = requestAnimationFrame(animate)
+
+    if (!gatos.life()< 0){
+    alert("Dark alien forces got you kitty!")
+      cancelAnimationFrame(animate)
+    }
+      //esto es el tablero de la vida
+      function mostrarDatos(life, kills){
+        ctx.font = "24px Arial"
+        ctx.fillText(life, 450, 10)
+        ctx.font = "18px Arial"
+        ctx.fillText(`x: ${x}, y: ${y}, kills: ${kills}`, 800, 40)
+    }
+    */
+
 
 //// activar los controles 
 //1245.600 x 688
@@ -238,13 +256,13 @@ function animate() {
 
 addEventListener('click', (event) => {
   //var x_mouse = event.clientX
-  let y_mouse =  (event.clientY -(688/2))
+  let y_mouse =  (event.pageY - (canvas.height))
   //(event.clientY - canvas.height) / 2;
-  let x_mouse = (event.clientX - (1245.600/2))
+  let x_mouse = (event.pageX - (canvas.width))
   //(event.clientX - canvas.width) / 2;
  const radianes = Math.atan2(y_mouse, x_mouse)
     const angle = (radianes*180)/Math.PI;
-//  console.log("x", (event.clientX - (1245.600/2)), "y", (event.clientY -(688/2)), "\n,angle", angle)
+console.log("x", (event.screenX), "y", (event.screenY), "\n,angle", angle)
     const velocity = {
        x: Math.cos(radianes),
        y: Math.sin(radianes)
