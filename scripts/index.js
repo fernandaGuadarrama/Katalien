@@ -5,12 +5,10 @@ const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d')
 
 
-//canvas.width = innerWidth
-//canvas.height = innerHeight
-
-
 const fondo = new Image()
 fondo.scr = "img/space.png"
+
+
 
 
 // let empezarJuego()
@@ -39,11 +37,14 @@ const cats = {
  second: "img/cat2.png"
 }
 
+let gatoMuerto = new Image()
+gatoMuerto.src = "img/catdead.png"
+
 
 
 let frames = 0;
 
-//let colores = ""
+
 class Personaje{
     constructor(x,y,w,h,imgs){
         this.x = x
@@ -57,19 +58,13 @@ class Personaje{
         this.image1.src = imgs.first
         this.image2.src = imgs.second
         this.image = this.image1
-        this.life = 10
+        this.life = 100
         this.kills = 0
     }
     recibirDaño(daño){
       this.life -= daño
     }
     draw() {
- /*       c.beginPath()
-        c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
-        c.fill()
-        c.fillStyle = this.color
-        */
- //      ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
         if (frames % 100 === 0){
           this.image = this.image === this.image1 ? this.image2 : this.image1
          }
@@ -78,22 +73,20 @@ class Personaje{
        //colision
     }
     drawDead(){
-       // if (frames % 100 === 0){
-      //   this.image = this.image === this.image1 ? this.image2 : this.image1
-      //  }
-      c.drawImage("img/catdead.png", this.x, this.y, this.width, this.height)     
+      c.drawImage(gatoMuerto, this.x, this.y, this.width, this.height) 
+     // this.image3 = this.image3
     }
    }
 
+          // let colores = {"#FF5CE4", "#FF73C6", "#FFA77D", "FFE25C", "FCF763", "5502BD", "FF0398", "FF5E5E", "#FDA703", "FFEC03", "DAF802", "029666", "CF8BF9", "FFADF1", "FFBDD2", "FFF58A", "#02E1D9"}
+          // function random_color(colores) {
+          //     let random_color = colores[Math.floor(Math.random() *colores.length)];
+          //     return random_color;
+          //     console.log(random_color)
+          //    }
 const x =  canvas.width / 2
 const y =  canvas.height / 2  
 const gatos = new Personaje(350, 200, 100, 100, cats)
-
-
-
-
-
-
 
 //// projectile
 class Projectile {
@@ -104,15 +97,6 @@ class Projectile {
         this.color = color
         this.velocity = velocity
         this.radianes = radianes
-
-/*        function get_random_color() {
-          function c() {
-            var hex = Math.floor(Math.random()*256).toString(16);
-            return ("0"+String(hex)).substr(-2); // pad with zero
-          }
-          return "#"+c()+c()+c();
-        }
-        */
     }
     draw() {
         c.beginPath()
@@ -122,8 +106,6 @@ class Projectile {
     }
     update() {
       this.draw()
-//     this.x = Math.cos(this.radianes)
-//     this.y = Math.sin(this.radianes)
         this.x = this.x + this.velocity.x 
         this.y = this.y + this.velocity.y 
     }
@@ -152,7 +134,7 @@ class Enemy {
         this.y = this.y + this.velocity.y
   }
   hitCat(){
-      gatos.recibirDaño(50)
+      gatos.recibirDaño(5)
       console.log(gatos.life)
   }
 
@@ -207,8 +189,15 @@ function animate() {
       console.log(gatos.life)
     }
     else {
-      alert("Dark alien forces got you kitty!")
-      gatos.drawDead()
+      gatos.drawDead(gatoMuerto) 
+      let gameOver;
+        function myFunction() {
+         timeout = setTimeout(alertFunc, 1000);
+        }
+        function alertFunc() {
+        alert("Dark alien forces got you kitty!");
+        }
+        myFunction()
     }
     if (frames % 50 == 0){
         spawnEnemies()
@@ -230,35 +219,32 @@ function animate() {
          if (dist_projectiles_enemy - enemy.radius - projectile.radius < 2) {
           enemies.splice(index, 1)
           projectiles.splice(projectileIndex, 1)
+          gatos.kills++
       }
       
        if (enemy.x <= 436 && enemy.x >= 364 && enemy.y <= 299 && enemy.y >= 202){
           enemy.hitCat()
-          gatos.recibirDaño(50)
+          gatos.recibirDaño(25)
           console.log(gatos.life)
+       }
+       if (gatos.kills>5) {
+          alert("You helped the alien nation a lot! THANK YOU kitty!")
        }
         });
     })
-
+    mostrarDatos(gatos.life, gatos.kills)
     animationId = requestAnimationFrame(animate)
 }
   //esto es el tablero de la vida
-// let mostrarDatos
-// function mostrarDatos(life, kills){
-//     ctx.font = "24px Arial"
-//     ctx.fillText(life, 450, 10)
-//     ctx.font = "18px Arial"
-//     ctx.fillText(`life: ${life} kills: ${kills}`, 800, 40)
-// }
-// mostrarDatos(gatos.life, gatos.kills)
-
-// if (gatos.life < 0){
-//   alert("Dark alien forces got you kitty!")
-//   gatos.drawDead()
-// }
+     function mostrarDatos(life, kills){
+      c.font = "24px 'Pathway Gothic One', sans-serif"
+      c.fillStyle = "white"
+      c.font = "18px 'Pathway Gothic One', sans-serif"
+      c.fillText(`Kitty life: ${life} Kills: ${kills}`, 600, 40)
+     }
 
 
-//idFrame = requestAnimationFrame(animate)
+
 
 
 
