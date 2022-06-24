@@ -256,13 +256,13 @@ function animate() {
 
 addEventListener('click', (event) => {
   //var x_mouse = event.clientX
-  let y_mouse =  (event.pageY - (canvas.height))
+  let y_mouse =  (event.offsetY - (canvas.height/2))
   //(event.clientY - canvas.height) / 2;
-  let x_mouse = (event.pageX - (canvas.width))
+  let x_mouse = (event.offsetX - (canvas.width/2))
   //(event.clientX - canvas.width) / 2;
  const radianes = Math.atan2(y_mouse, x_mouse)
     const angle = (radianes*180)/Math.PI;
-console.log("x", (event.screenX), "y", (event.screenY), "\n,angle", angle)
+console.log("x", (event.offsetX), "y", (event.offsetY), "\n,angle", angle)
     const velocity = {
        x: Math.cos(radianes),
        y: Math.sin(radianes)
